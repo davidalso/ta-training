@@ -118,9 +118,15 @@ def main():
     for filename in files:
         files[filename].findTAQ()
 
+    writeCSV(files)
+
 #writes the .csv
+def writeCSV(files):
     with open('OnlyTAQs.csv', 'w', newline='') as sheet:
         output = csv.writer(sheet, delimiter=',')
+#writes the header of the csv
+        output.writerow(['File Name', 'Week', 'Section', 'Part', 'Time In',
+                         'Time Out', 'Length', 'Label', 'Text'])
         for filename in files:
             output.writerows(files[filename].result)
     sheet.close()
