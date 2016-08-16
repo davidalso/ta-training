@@ -78,12 +78,13 @@ class Textfile(object):
     def countOverlap(self):
         count = 0
         for line in self.textList:
-            if self.isOdd:
-                if line.timeIn < 240:
-                    count = count + 1
-            else:
-                if line.timeOut > 60:
-                    count = count + 1
+            if line.label == 'TA-Q:' or line.label == 'TAQ:':
+                if self.isOdd:
+                    if line.timeIn < 240:
+                        count = count + 1
+                else:
+                    if line.timeOut > 60:
+                        count = count + 1
         return count
 
     #returns a list containing Texline instances
