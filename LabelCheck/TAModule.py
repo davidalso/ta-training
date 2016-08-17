@@ -54,6 +54,8 @@ class Textfile(object):
     #labels that need revision
     incorrect = [['File Name', 'Week', 'Section', 'Part', 'Time In',
                 'Time Out', 'Length', 'Label', 'Text']]
+    TAQs = [['File Name', 'Week', 'Section', 'Part', 'Time In',
+                'Time Out', 'Length', 'Label', 'Text']]
     labels = {'ST', 'ST-Q', 'STQ', 'MS', 'STO',
               'TA', 'TAQ:', 'TA-Q:', 'G', 'RAQ'}
     STEvent = {'ST', 'ST-Q', 'STQ', 'MS', 'STO'}
@@ -136,6 +138,13 @@ class Textfile(object):
         else:
             return allLines
 
+    def findTAQs(self):
+        for line in self.textList:
+            if line.label == 'TA-Q:' or line.label == 'TAQ:':
+                #True to get real time for labels
+                Textfile.TAQs.append(line.getListFormat(True))
+        
+    #checks if the all labels withi a .txt are correctly written
     def reviewLabels(self):
         for line in self.textList:
             if line.label not in Textfile.labels:
