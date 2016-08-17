@@ -1,6 +1,7 @@
 import csv
 import os
-import glob  
+import glob
+from TAModule import *
     
 def TAQinTextfile(fileIndex, filename, TAQs, labels):
     textfile = open(filename, 'r')
@@ -38,6 +39,15 @@ def writeCSV(TAQs):
         output = csv.writer(sheet, delimiter=',')
         output.writerows(TAQs)
     sheet.close()
+
+def main():
+    for filename in glob.glob('*.txt'):
+        textfile = Textfile(filename)
+        textfile.reviewLabels()
+
+    incorrect = open('IncorrectLabels.csv', 'w', newline = '')
+    incorrect_csv = csv.writer(incorrect, delimiter = ',')
+    incorrect_csv.writerows(Textfile.incorrect)
     
 def compileAll():
     labels = {"TA-Q:":0, "G":0, "ST":0, "ST-Q":0, "TA":0,
