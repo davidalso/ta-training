@@ -137,7 +137,8 @@ class Textfile(object):
             return allLines[:index]
         else:
             return allLines
-
+        
+    #finds the TAQs within the Textfile textList
     def findTAQs(self):
         for line in self.textList:
             if line.label == 'TA-Q:' or line.label == 'TAQ:':
@@ -149,6 +150,24 @@ class Textfile(object):
         for line in self.textList:
             if line.label not in Textfile.labels:
                 Textfile.incorrect.append(line.getListFormat(False))
+                
+    #checks that a TAQ is followed by labels without any space or overlap
+    #until it reaches the next TA event (TAQ or TA) aka Scott.py
+    def reviewTAQEvent(self):
+        seenTAQ = False
+        prevTime = self.textList[0].timeOut
+        for row in range(1, len(self.textList)):
+            line = self.textList[row]
+            currTime = line.timeIn
+            if seenTAQ:
+                if currTime != prevTime:
+                    Textfile.incorrect.append(line.getListFormat(False))
+                if line.label == 'TA':
+                    seenTAQ = False
+            if line.label == 'TA-Q:' or line.label == 'TAQ:':
+                seenTAQ = True
+            prevTime = self.textList[row].timeOut
+                
         
     #most important method
     #counts the events that occur after TAQ and the lengths
