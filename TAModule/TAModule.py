@@ -144,6 +144,39 @@ class Textfile(object):
             if line.label == 'TA-Q:' or line.label == 'TAQ:':
                 #True to get real time for labels
                 Textfile.TAQs.append(line.getListFormat(True))
+
+    def reviewGaps(self):
+        (isTA, isGapMissing) = (False, False)
+        for row in range(len(self.textList)):
+            line = self.textList[row]
+            if line.label in Textfile.TAEvent:
+                if not isTA:
+                    isGapMissing = self.checkMissingGap(row)
+                    isTA = True
+            else:
+                if line.label in Textfile.STEvent:
+                    if isTA:
+                        isGapMissing = self.checkMissingGap(row)
+                        isTA = False
+
+            if isGapMissing:
+                prevLine = self.textList[row - 1]
+                Textfile.incorrect.append(prevLine.getListFormat(False))
+                Textfile.incorrect.append(line.getListFormat(False))
+                isGapMissing = False
+
+    def checkMissingGap(self, row):
+        if row - 1 < 0:
+            return False
+        line1 = self.textList[row - 1]
+        line2 = self.textList[row]
+        if line1.label == 'STO' or line2.label == 'STO':
+            return False
+        if line1.label == 'G':
+            return False
+        return True
+            
+            
         
     #checks if the all labels withi a .txt are correctly written
     def reviewLabels(self):
