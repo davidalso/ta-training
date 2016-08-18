@@ -5,7 +5,7 @@ CORRECTLY FORMATTED TO AVOID CRASHING OR UNWANTED RESULTS***
 'AdvancedAfterTAQ.py' is designed to go through all the label files within
 the folder where the Python script is located. IT MUST ALSO HAVE A .csv FILE
 NAMED 'CodeToQuestion' CONTAINING THE QUESTIONS AND THEIR CORRESPONDING CODE.
-The program will output 3 differente .csv files. They are as follows:
+The program will output 3 different .csv files. They are as follows:
 
 'AdvancedAfterTAQ.csv'
 	The file contains weeks 1-10 and sections B, C, and E. For each 
